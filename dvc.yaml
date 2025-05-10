@@ -1,0 +1,28 @@
+stages:
+  preprocess:
+    cmd: python src/stages/preprocess.py --input data/raw/Titanic.csv --output data/processed/cleaned.csv
+    deps:
+      - src/stages/preprocess.py
+      - data/raw/Titanic.csv
+    outs:
+      - data/processed/cleaned.csv
+
+  train:
+    cmd: python src/stages/train.py --data data/processed/cleaned.csv
+    deps:
+      - src/stages/train.py
+      - data/processed/cleaned.csv
+      - params.yaml
+    outs:
+      - test_data.csv
+    metrics:
+      - mlruns:
+          cache: false
+
+  evaluate:
+    cmd: python -c "import os; run_id=open('run_id.txt').read().strip(); os.system(f'python src/stages/evaluate.py --test-data test_data.csv --run-id {run_id}')"
+    deps:
+      - src/stages/evaluate.py
+      - test_data.csv
+    metrics:
+      - metrics.json

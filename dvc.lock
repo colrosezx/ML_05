@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/stages/preprocess.py --input data/raw/Titanic.csv --output data/processed/cleaned.csv
+    deps:
+    - path: data/raw/Titanic.csv
+      hash: md5
+      md5: 61fdd54abdbf6a85b778e937122e1194
+      size: 60302
+    - path: src/stages/preprocess.py
+      hash: md5
+      md5: 0c6d02bf345f70dacf7d8c38bebbe904
+      size: 781
+    outs:
+    - path: data/processed/cleaned.csv
+      hash: md5
+      md5: 81f6bd5eb13546ac417a9d6b1387c1c7
+      size: 7062
+  train:
+    cmd: python src/stages/train.py --data data/processed/cleaned.csv
+    deps:
+    - path: data/processed/cleaned.csv
+      hash: md5
+      md5: 81f6bd5eb13546ac417a9d6b1387c1c7
+      size: 7062
+    - path: params.yaml
+      hash: md5
+      md5: 7247a16138a578b163e4cc662595764e
+      size: 63
+    - path: src/stages/train.py
+      hash: md5
+      md5: 08735f6ade8fe02578b576e041e4784e
+      size: 1797
+    outs:
+    - path: mlruns
+      hash: md5
+      md5: 7f4a0f57e48d897bb5fd52aa1ec9c1d8.dir
+      size: 249393
+      nfiles: 7
+    - path: test_data.csv
+      hash: md5
+      md5: 2dd0ecfe2931a883155d57c38d1e61b6
+      size: 1504
+  evaluate:
+    cmd: python -c "import os; run_id=open('run_id.txt').read().strip(); os.system(f'python
+      src/stages/evaluate.py --test-data test_data.csv --run-id {run_id}')"
+    deps:
+    - path: src/stages/evaluate.py
+      hash: md5
+      md5: d6ec1c9f42fd5bab81b02bb7f78d6f8f
+      size: 1634
+    - path: test_data.csv
+      hash: md5
+      md5: 2dd0ecfe2931a883155d57c38d1e61b6
+      size: 1504
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 94ee3b2d04fb459cf0307bde875fa480
+      size: 95

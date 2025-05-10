@@ -1,0 +1,39 @@
+artifact_path: titanic_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.2
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.21.0
+model_size_bytes: 247372
+model_uuid: 685f0867687c4686b0e363c8d16710af
+prompts: null
+run_id: b44a0c5b59694b5cb4287fb824c253c1
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "long", "name": "PassengerId", "required": true}, {"type": "long",
+    "name": "Pclass", "required": true}, {"type": "long", "name": "Name", "required":
+    true}, {"type": "long", "name": "Sex", "required": true}, {"type": "double", "name":
+    "Age", "required": true}, {"type": "long", "name": "SibSp", "required": true},
+    {"type": "long", "name": "Parch", "required": true}, {"type": "long", "name":
+    "Ticket", "required": true}, {"type": "double", "name": "Fare", "required": true},
+    {"type": "long", "name": "Cabin", "required": true}, {"type": "long", "name":
+    "Embarked", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-05-10 19:39:21.616542'
